@@ -1,0 +1,27 @@
+{
+  "name": "search-for-match",
+  "version": "1.0.0",
+  "description": "Search for match in whole file",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stan-coder/test-task-2-search-for-match.git"
+  },
+  "keywords": [
+    "search",
+    "match",
+    "edit-distance"
+  ],
+  "author": "Stanislav Zavalishin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stan-coder/test-task-2-search-for-match/issues"
+  },
+  "homepage": "https://github.com/stan-coder/test-task-2-search-for-match#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
