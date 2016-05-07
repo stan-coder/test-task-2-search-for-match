@@ -1,12 +1,11 @@
-var data = require(__dirname + '/inc/prepareData')((res) => {
+var express = require('express');
+var app = express();
 
-	if (Object.getPrototypeOf(res) !== Object.prototype || res.success !== true) {
-		if (res.error) {
-			console.error(res.error);
-		}
-		return;
-	}
+var conf = {
+	basePath: __dirname,
+	app: app,
+	express: express
+};
 
-	var Similarity = require(__dirname + '/inc/similarity');
-	(new Similarity(...res.data)).init();
-});
+require(conf.basePath + '/config/express')(conf);
+require(conf.basePath + '/config/routes')(conf);

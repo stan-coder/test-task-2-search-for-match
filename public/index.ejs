@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="test-task-1">
+<head>
+	<title>Find match based patterns</title>
+	<link rel="stylesheet" type="text/css" href="/css/cosmo-theme-of-bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<script src="/js/angular.min.js"></script>
+	<script src="/js/application.js"></script>
+</head>
+<body>
+	<div class="container" ng-controller="generalCtrl">		
+
+		<div class="col-lg-12">
+      <div class="page-header">
+        <h1 id="forms">Data</h1>
+        <div class="btn-group" style="float: right; margin-top: -51px;">
+
+        	<div style="position: absolute; margin: -17px 0 0 -96px;">
+        		<h2>Mode</h2>
+        	</div>
+
+			    <a href="#" class="btn btn-warning">1</a>
+			    <a href="#" class="btn btn-warning">2</a>
+			    <a href="#" class="btn btn-warning">3</a>
+			  </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+	    <div class="col-lg-6">
+	      <div class="well bs-component">
+	        <form class="form-horizontal">
+	          <fieldset>
+	            <legend>Input</legend>
+	            
+	            
+	            <div class="form-group">
+	              <div class="col-lg-12">
+	                <textarea readonly="readonly" style="background-color: #fff;" class="form-control" rows="8" id="textArea"><%= input %></textarea>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <div class="col-lg-10">
+
+	                <button class="btn btn-primary">Load</button>
+	              </div>
+	            </div>
+	          </fieldset>
+	        </form>
+	      </div>
+	    </div>
+
+
+	    <div class="col-lg-6">
+	      <div class="well bs-component">
+	        <form class="form-horizontal">
+	          <fieldset>
+	            <legend>Patterns</legend>
+	            
+	            
+	            <div class="form-group">
+	              <div class="col-lg-12">
+	                <textarea readonly="readonly" style="background-color: #fff;" class="form-control" rows="8" id="textArea"><%= patterns %></textarea>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <div class="col-lg-10">
+	                <button class="btn btn-primary">Load</button>
+	              </div>
+	            </div>
+	          </fieldset>
+	        </form>
+	      </div>
+			</div>
+
+		</div>
+
+
+		<div class="part2">
+			<hr class="w60P" />		
+
+			<div style="margin-top: 20px;">
+				<a class="btn btn-primary btn-lg">Reveal</a>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

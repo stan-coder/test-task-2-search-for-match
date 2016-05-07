@@ -16,7 +16,7 @@ module.exports = function(cb) {
 					if (err) {
 						return rej(err);
 					}
-					res(data.split('\n'));
+					res(data);
 				});	
 			}));
 		}

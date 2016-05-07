@@ -8,12 +8,7 @@ class Similarity {
 	constructor(input, patterns) {
 		this.input = input;
 		this.patterns = patterns;
-		this.matchList = {
-			1: {
-				input: 'another',
-				patterns: ['anoother', 'azother']
-			}
-		};
+		this.matchList = {};
 
 		this.excessMaxCo = 0;
 		this.exposeMethods = ['DifferentSymbols', 'Reduplication', 'AbsenceSymbols'];
@@ -28,6 +23,8 @@ class Similarity {
 		this.splittedInput.forEach((input, key) => {
 			this.compare(input, key)
 		});
+
+		console.log(this.matchList);
 	}
 
 
@@ -41,14 +38,9 @@ class Similarity {
 		this.maxCoPattern = Math.floor(input.length / 2.661);
 
 		/**
-		 * Max. acceptable count of words that is allowed to absent in a sentence
-		 * or do not math with pattern
+		 * Pluck array of splitted patterns
 		 */
-		this.maxAbsentWords = Math.floor(this.maxCoPattern / 2);
-
-
-
-		this.splittedPatterns.forEach((pattern) => {
+		this.splittedPatterns.forEach((pattern, keyPattern) => {
 
 			// Temporary variables
 			var escape = false;
@@ -58,7 +50,7 @@ class Similarity {
 			 * Use generator to obtain laconic code
 			 */
 			function* Gen(scope) {
-				yield !scope.exposeBasicLength(input.length, pattern.length);
+				yield input.length !== pattern.length;
 
 				/**
 				 * Make compare each word of input with patterns
@@ -79,8 +71,9 @@ class Similarity {
 				// If escape == true then given pattern do not match with input
 				yield escape;
 
-				console.log(`${input}  -  ${pattern}`);
-				yield false;
+				scope.addPatternToMatch(
+					scope.input[keyInput], scope.patterns[keyPattern], keyInput
+				);
 			}
 
 			/**
@@ -94,13 +87,18 @@ class Similarity {
 		});
 	}
 
-
 	/**
-	 * Compare length of input and pattern 
-	 * considering max. allowable count of absent words per sentence
+	 * Add found pattern to array of input
 	 */
-	exposeBasicLength(i, p) {
-		return p <= i && p >= (i - this.maxAbsentWords);
+	addPatternToMatch(i, p, keyInput) {
+
+		if (!this.matchList.hasOwnProperty(keyInput)) {
+			this.matchList[keyInput] = {
+				input: i,
+				patterns: []
+			};
+		}		
+		this.matchList[keyInput].patterns.push(p);
 	}
 
 
@@ -125,7 +123,7 @@ class Similarity {
 	 * Sometimes pattern can consists from repeating symbols
 	 */
 	exposeReduplication(i, p) {
-		//if (i.length === p.length) return false;
+		if (i.length === p.length) return false;
 
 		var splitedI = i.split('');
 		var splitedP = p.split('');
@@ -142,14 +140,12 @@ class Similarity {
 					prev += curr;
 				} 
 				else {
-					
 					if (!indicator) {
 						catchedSymbol = curr;
 						moreThen++;
 						indicator = true;
 					}
 					else {
-
 						if (curr === catchedSymbol) moreThen++;
 						else {
 							indicator = false;
