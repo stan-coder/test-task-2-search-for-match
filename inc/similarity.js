@@ -16,6 +16,7 @@ class Similarity {
 		};
 
 		this.excessMaxCo = 0;
+		this.exposeMethods = ['DifferentSymbols', 'Reduplication', 'AbsenceSymbols'];
 	}
 
 
@@ -47,11 +48,11 @@ class Similarity {
 
 
 
-
 		this.splittedPatterns.forEach((pattern) => {
 
 			// Temporary variables
 			var escape = false;
+			var countAllowableMatch = 0;
 
 			/**
 			 * Use generator to obtain laconic code
@@ -64,19 +65,21 @@ class Similarity {
 				 */
 				input.forEach((inputWord, key) => {
 					var patternWord = pattern[key];
+					if (Object.is(patternWord, inputWord) || escape) return;
 
-					/**
-					 * Expose input-word with appropriate pattern-word comparison
-					 */
-					if (Object.is(patternWord, inputWord)) return;
+					var isMatch = scope.exposeMethods.some(method => {
+						return scope['expose' + method](inputWord, patternWord);
+					});
 
-					//
+					if ((countAllowableMatch += (isMatch ? 1 : 2)) > scope.maxCoPattern) {
+						escape = true;
+					}
 				});
 
-				// If escape == true, then given pattern do not match with input
+				// If escape == true then given pattern do not match with input
 				yield escape;
 
-				console.log(input);
+				console.log(`${input}  -  ${pattern}`);
 				yield false;
 			}
 
@@ -159,6 +162,31 @@ class Similarity {
 			}, 0);
 
 		return Object.is(res, i);
+	}
+
+
+	/**
+	 * Find out the fact of absence at least one symbol between two indeed identical words
+	 */
+	exposeAbsenceSymbols(i, p) {
+		
+		// Max. absent symbols
+	 	var maxAS = Math.ceil(i.length / 10);
+
+	 	if (i.length < 3 || i.length > (p.length + maxAS) || i.length <= p.length) {
+	 		return false;
+	 	}
+
+		var res = i.split('').filter(function(symbol, key) {				
+				if (symbol === p[key - this.indent]) {
+					return true;
+				}
+				else {
+					this.indent++;
+				}
+			}, {indent: 0});
+
+		return Object.is(res.join(''), p);
 	}
 
 
