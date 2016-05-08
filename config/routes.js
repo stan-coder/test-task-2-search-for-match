@@ -1,28 +1,65 @@
 module.exports = (conf) => {
 
 	/**
-	 * Main page
+	 * Prepare data midleware
 	 */
-	conf.app.get('/', function(req, res) {
+	function getPrepareData(errorCb, successCb) {
 		require(conf.basePath + '/inc/prepareData')((result) => {
 
-			if (Object.getPrototypeOf(result) !== Object.prototype || result.success !== true) {
+			if (Object.getPrototypeOf(result) !== Object.prototype || result.success !== true || !result.hasOwnProperty('data')) {
 				if (result.error) {
 					console.error(result.error);
-					res.render(conf.basePath + '/public/cantOpenFiles');
 				}
+				errorCb();
 				return;
 			}
-
-			//var Similarity = require(conf.basePath + '/inc/similarity');
-			//(new Similarity(...result.data.map(str => str.split('\n')))).init();
-
-			res.render(conf.basePath + '/public/index', {
-				input: result.data[0], 
-				patterns: result.data[1]
-			});
+			successCb(result.data);
 		});
+	}
+
+
+	/**
+	 * Main page
+	 */
+	conf.app.get('/', (req, res) => {
+
+		getPrepareData(
+			() => {
+				res.render(conf.basePath + '/public/cantOpenFiles');
+			},
+			(data) => {
+				res.render(conf.basePath + '/public/index', {
+					input: data[0], 
+					patterns: data[1]
+				});
+			}
+		);
 	});
+
+
+	/**
+	 * Getting match
+	 */
+	conf.app.post('/getMath', (req, res) => {
+
+		getPrepareData(
+			() => {
+				res.json({
+					success: false
+				});
+			},
+			(data) => {
+				var Similarity = require(conf.basePath + '/inc/similarity');
+				var result = (new Similarity(...data.map(str => str.split('\n')))).init();
+
+				res.json({
+					success: true, 
+					data: result
+				});
+			}
+		);
+	});
+
 
 	/**
 	 * 404 handler

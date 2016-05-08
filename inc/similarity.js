@@ -24,7 +24,7 @@ class Similarity {
 			this.compare(input, key)
 		});
 
-		console.log(this.matchList);
+		return this.matchList;
 	}
 
 

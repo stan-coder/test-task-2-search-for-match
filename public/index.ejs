@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="test-task-1">
+<html ng-app="test-task-2-search-for-match">
 <head>
 	<title>Find match based patterns</title>
 	<link rel="stylesheet" type="text/css" href="/css/cosmo-theme-of-bootstrap.css">
@@ -8,20 +8,20 @@
 	<script src="/js/application.js"></script>
 </head>
 <body>
-	<div class="container" ng-controller="generalCtrl">		
+	<div class="container" ng-controller="generalCtrl">
 
 		<div class="col-lg-12">
       <div class="page-header">
         <h1 id="forms">Data</h1>
-        <div class="btn-group" style="float: right; margin-top: -51px;">
+        <div class="btn-group modeGroup">
 
-        	<div style="position: absolute; margin: -17px 0 0 -96px;">
+        	<div class="modeCation">
         		<h2>Mode</h2>
         	</div>
 
-			    <a href="#" class="btn btn-warning">1</a>
-			    <a href="#" class="btn btn-warning">2</a>
-			    <a href="#" class="btn btn-warning">3</a>
+			    <a class="{{'btn btn-warning ' + getModeBtnClass(1)}}" ng-click="changeMode(1)">1</a>
+			    <a class="{{'btn btn-warning ' + getModeBtnClass(2)}}" ng-click="changeMode(2)">2</a>
+			    <a class="{{'btn btn-warning ' + getModeBtnClass(3)}}" ng-click="changeMode(3)">3</a>
 			  </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
 	            
 	            <div class="form-group">
 	              <div class="col-lg-12">
-	                <textarea readonly="readonly" style="background-color: #fff;" class="form-control" rows="8" id="textArea"><%= input %></textarea>
+	                <textarea readonly="readonly" style="background-color: #fff;" class="form-control" rows="3" id="textArea"><%= input %></textarea>
 	              </div>
 	            </div>
 	            
@@ -62,7 +62,7 @@
 	            
 	            <div class="form-group">
 	              <div class="col-lg-12">
-	                <textarea readonly="readonly" style="background-color: #fff;" class="form-control" rows="8" id="textArea"><%= patterns %></textarea>
+	                <textarea readonly="readonly" style="background-color: #fff;" class="form-control" rows="3" id="textArea"><%= patterns %></textarea>
 	              </div>
 	            </div>
 	            
@@ -82,8 +82,44 @@
 		<div class="part2">
 			<hr class="w60P" />		
 
-			<div style="margin-top: 20px;">
-				<a class="btn btn-primary btn-lg">Reveal</a>
+			<div class="mt20">
+				<a class="btn btn-primary btn-lg" ng-click="reveal()">Reveal</a>
+			</div>
+
+			<div class="mt20" style="text-align: left;">
+				<table class="table table-striped table-hover">
+				  <thead>
+				    <tr>
+				      <th>#</th>
+				      <th>Input</th>
+				      <th>Pattern</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>1</td>
+				      <td>Column content</td>
+				      <td>
+			      		Column content<br/>
+			      		Column content
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>1</td>
+				      <td>Column content</td>
+				      <td>
+				      	Column content<br/>
+				      	Column content
+				      </td>
+				    </tr>
+				  </tbody>
+				</table> 
+
+				<table>
+					<tr ng-repeat="(key, value) in match">
+						<td>{{key}}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 

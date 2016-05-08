@@ -8,6 +8,23 @@
 	margin-top: 30px;
 }
 
-.w60P{
+.w60P {
 	width: 60%;
+}
+
+.darkOrange {
+	background-color:#e45c00;
+}
+
+.modeGroup {
+	float: right;
+	margin-top: -51px;
+}
+
+.modeCation {
+	position: absolute; margin: -17px 0 0 -96px;
+}
+
+.mt20 {
+	margin-top: 20px;
 }
