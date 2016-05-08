@@ -24,7 +24,11 @@ class Similarity {
 			this.compare(input, key)
 		});
 
-		return this.matchList;
+		/**
+		 * We need to regularize keys of gotten object
+		 */
+		var maxKey = Math.max.apply(null, Object.keys(this.matchList).map(e => +e));
+		return Array.prototype.filter.call((this.matchList.length = maxKey + 1, this.matchList), e => e);
 	}
 
 

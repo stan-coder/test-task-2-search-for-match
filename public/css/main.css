@@ -28,3 +28,17 @@
 .mt20 {
 	margin-top: 20px;
 }
+
+.mt40 {
+	margin-top: 40px;
+}
+
+.dBlock {
+	display: block;
+}
+
+.errorPanel {
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+}

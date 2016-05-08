@@ -86,40 +86,34 @@
 				<a class="btn btn-primary btn-lg" ng-click="reveal()">Reveal</a>
 			</div>
 
-			<div class="mt20" style="text-align: left;">
-				<table class="table table-striped table-hover">
+			<div class="mt40" style="text-align: left;">
+
+				<table ng-hide="resultTableHidden" class="table table-striped table-hover">
 				  <thead>
 				    <tr>
 				      <th>#</th>
 				      <th>Input</th>
-				      <th>Pattern</th>
+				      <th>Patterns</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <td>1</td>
-				      <td>Column content</td>
+				    
+				  	<tr ng-repeat="(key, _match) in match">
+				      <td>{{key + 1}}</td>
+				      <td>{{_match.input}}</td>
 				      <td>
-			      		Column content<br/>
-			      		Column content
+			      		<span class="dBlock" ng-repeat="pattern in _match.patterns">{{pattern}}</span>
 				      </td>
 				    </tr>
-				    <tr>
-				      <td>1</td>
-				      <td>Column content</td>
-				      <td>
-				      	Column content<br/>
-				      	Column content
-				      </td>
-				    </tr>
+
 				  </tbody>
 				</table> 
 
-				<table>
-					<tr ng-repeat="(key, value) in match">
-						<td>{{key}}</td>
-					</tr>
-				</table>
+				<div class="alert alert-dismissible alert-danger errorPanel" ng-hide="errorPanelHidden">
+				  <button type="button" class="close" data-dismiss="alert" ng-click="hideErrorPanel()">&times;</button>
+				  {{errorMessage}}
+				</div>
+
 			</div>
 		</div>
 

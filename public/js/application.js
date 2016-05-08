@@ -3,16 +3,11 @@ var app = angular.module('test-task-2-search-for-match', []);
 app.controller('generalCtrl', ($scope, $http, $timeout) => {
 
 	$scope.mode = 1;
-	$scope.match = {
-		1: {
-			input: 'input 1',
-			patterns: ['one', 'two']
-		}, 
-		2: {
-			input: 'input 22',
-			patterns: ['three', 'four']
-		}
-	};
+	$scope.match = [];
+	$scope.resultTableHidden = true;
+	$scope.errorPanelHidden = true;
+	$scope.errorMessage = '';
+	$scope.timeout = null;
 
 	$scope.getModeBtnClass = (mode) => {
 		return mode == $scope.mode ? 'darkOrange' : '';
@@ -23,6 +18,7 @@ app.controller('generalCtrl', ($scope, $http, $timeout) => {
 	};
 
 	$scope.reveal = () => {
+		$scope.resultTableHidden = true;
 
 		$http
 			.post('/getMath', {mode: $scope.mode})
@@ -33,21 +29,30 @@ app.controller('generalCtrl', ($scope, $http, $timeout) => {
 
 						var data = data.data;
 						if (data.length < 1) {
-							// Show text that have not been found any patterns
-							return;
+							// Show text that have not been found by any patterns
+							return showErrorPanel('There are no any patterns mathed with input');
 						}
-
-						for (let key in data) {
-							console.log(data[key]);
-						}
-						return;
+						return ($scope.match = data, $scope.resultTableHidden = false);
 					}
 					// Do error warning
-					console.log('error');
+					showErrorPanel(null, true);
 				},
 				(data) => {
-					console.log(data);
+					showErrorPanel(null, true);
 				}
 			);
 	};
+
+	$scope.hideErrorPanel = () => {
+		$timeout.cancel($scope.timeout);
+		$scope.errorPanelHidden = true;
+	};
+
+	function showErrorPanel(message, onServer) {
+		$scope.errorMessage = !onServer ? message : 'Some error has occurred on server side.';
+		$scope.errorPanelHidden = false;
+		$scope.timeout = $timeout(() => {
+			$scope.errorPanelHidden = true;
+		}, 1400);
+	}
 });
