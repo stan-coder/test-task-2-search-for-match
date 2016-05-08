@@ -21,7 +21,7 @@ app.controller('generalCtrl', ($scope, $http, $timeout) => {
 		$scope.resultTableHidden = true;
 
 		$http
-			.post('/getMath', {mode: $scope.mode})
+			.post('/getMatch', {mode: $scope.mode})
 			.then(
 				(res) => {
 					var data = res.data;

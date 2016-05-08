@@ -10,8 +10,7 @@ module.exports = (conf) => {
 				if (result.error) {
 					console.error(result.error);
 				}
-				errorCb();
-				return;
+				return errorCb();
 			}
 			successCb(result.data);
 		});
@@ -40,7 +39,7 @@ module.exports = (conf) => {
 	/**
 	 * Getting match
 	 */
-	conf.app.post('/getMath', (req, res) => {
+	conf.app.post('/getMatch', (req, res) => {
 
 		getPrepareData(
 			() => {
@@ -49,9 +48,16 @@ module.exports = (conf) => {
 				});
 			},
 			(data) => {
-				var Similarity = require(conf.basePath + '/inc/similarity');
-				var result = (new Similarity(...data.map(str => str.split('\n')))).init();
+				var mode = req.body.mode;
 
+				if (!Number.isInteger(mode)) {
+					return res.json({
+						success: false
+					});
+				}
+				var path = `${conf.basePath}/inc/` + (mode === 3 ? 'similarity' : 'entry');
+
+				var result = (new (require(path))(...data.map(str => str.split('\n')))).init(mode);
 				res.json({
 					success: true, 
 					data: result
