@@ -1,7 +1,7 @@
 module.exports = (conf) => {
 
 	/**
-	 * Prepare data midleware
+	 * Prepare data middleware
 	 */
 	function getPrepareData(errorCb, successCb) {
 		require(conf.basePath + '/inc/prepareData')((result) => {

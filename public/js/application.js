@@ -27,10 +27,10 @@ app.controller('generalCtrl', ($scope, $http, $timeout) => {
 					var data = res.data;
 					if (Object.getPrototypeOf(data) === Object.prototype && data.success === true && data.hasOwnProperty('data')) {
 
-						var data = data.data;
+						data = data.data;
 						if (data.length < 1) {
 							// Show text that have not been found by any patterns
-							return showErrorPanel('There are no any patterns mathed with input');
+							return showErrorPanel('There are no any patterns matched with input');
 						}
 						return ($scope.match = data, $scope.resultTableHidden = false);
 					}
